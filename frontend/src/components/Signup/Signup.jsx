@@ -85,27 +85,7 @@ const Signup = () => {
                                 }
                             </div>
                         </div>
-                        <div className={`${styles.noramlFlex} justify-between`}>
-                            <div className={`${styles.noramlFlex}`}>
-                                <input
-                                    type="checkbox"
-                                    name="remember-me"
-                                    id="remember-me"
-                                    className='w-4 h-4 text-blue-600 border-gray-500 rounded focus:ring-blue-500'
-                                />
-                                <label htmlFor="remember-me" className='block ml-2 text-sm text-gray-900'>
-                                    Remember me
-                                </label>
-                            </div>
-                            <div className='text-sm'>
-                                <a
-                                    className='font-medium text-blue-600 hover:text-blue-500'
-                                    href=".forgot-password"
-                                >
-                                    Forgot your Password
-                                </a>
-                            </div>
-                        </div>
+                     
                         <div className="">
                             <button type="submit"
                             className='relative w-full h-[40] group flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 '>
