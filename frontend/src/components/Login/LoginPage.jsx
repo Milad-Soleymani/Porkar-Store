@@ -1,12 +1,16 @@
+// ! import methods and components and ...
 import React,{ useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import styles from '../../styles/styles'
 import {Link} from 'react-router-dom'
 
+// ! Original component
 const Login = () => {
+    // ? State Variables
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState(false);
     const [visible, setVisible] = useState(false);
+    // ? Page Elements
     return (
         <div className="flex flex-col justify-center min-h-screen py-12 bg-gray-100 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
