@@ -7,7 +7,7 @@ const Login = () => {
     const [password, setPassword] = useState(false);
     const [visible, setVisible] = useState(false);
     return (
-        <div className="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-center min-h-screen py-12 bg-gray-100 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
                     Login to your account
@@ -78,11 +78,17 @@ const Login = () => {
                             <div className='text-sm'>
                                 <a
                                     className='font-medium text-blue-600 hover:text-blue-500'
-                                    href="#"
+                                    href=".forgot-password"
                                 >
                                     Forgot your Password
                                 </a>
                             </div>
+                        </div>
+                        <div className="">
+                            <button type="submit"
+                            className='relative w-full h-[40] group flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 '>
+                                Submit
+                            </button>
                         </div>
                     </form>
                 </div>
