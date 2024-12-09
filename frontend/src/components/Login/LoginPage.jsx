@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React,{ useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import styles from '../../styles/styles'
+import {Link} from 'react-router-dom'
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -89,6 +90,12 @@ const Login = () => {
                             className='relative w-full h-[40] group flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 '>
                                 Submit
                             </button>
+                        </div>
+                        <div className={`${styles.noramlFlex} w-full`}>
+                            <h4>Not have any account?</h4>
+                            <Link to='/sign-up' className='pl-2 text-blue-600'>
+                            Sign Up
+                            </Link>                            
                         </div>
                     </form>
                 </div>
