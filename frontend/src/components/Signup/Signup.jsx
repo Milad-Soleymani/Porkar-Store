@@ -17,7 +17,7 @@ const Signup = () => {
   const handlesubmit = () => {
     console.log('ffff')
   }
-
+// !
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     setAvatar(file)
@@ -132,7 +132,7 @@ const Signup = () => {
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Not have any account?</h4>
-              <Link to='/signin' className='pl-2 text-blue-600'>
+              <Link to='/login' className='pl-2 text-blue-600'>
                 Sign In
               </Link>
             </div>
