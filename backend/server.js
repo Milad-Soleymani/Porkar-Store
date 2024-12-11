@@ -1,4 +1,5 @@
 const app = require('./app');
+const connectDatabase = require('./db/database');
 
 
 
@@ -16,6 +17,9 @@ if (process.env.NODE_ENV != "PRODUCTION") {
         path: "backend/config/.env"
     })
 }
+
+// ! connect to database
+connectDatabase();
 
 // ! create server
 
