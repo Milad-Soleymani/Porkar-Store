@@ -1,15 +1,15 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-const {upload} = require('../multer');
+const { upload } = require('../multer');
 const User = require('../model/user')
 const ErrorHandler = require('../utils/ErrorHandler');
 
-router.post('/createuser', upload.single('file'),async (req, res, next) => {
-    const {name,email,password} = req.body;
-        const userEmail = await User.findOne({email})
+router.post('/createuser', upload.single('file'), async (req, res, next) => {
+    const { name, email, password } = req.body;
+    const userEmail = await User.findOne({ email })
 
-    if(userEmail){
+    if (userEmail) {
         return next(new ErrorHandler('User already exists', 400))
     }
 
@@ -25,3 +25,5 @@ router.post('/createuser', upload.single('file'),async (req, res, next) => {
 
     console.log(user)
 })
+
+module.exports = router;
