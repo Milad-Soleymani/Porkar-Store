@@ -12,7 +12,7 @@ const Signup = () => {
   // ? State Variables
   const [email, setEmail] = useState('');
   const [name, setName] = useState('')
-  const [password, setPassword] = useState(false);
+  const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
 
@@ -22,20 +22,22 @@ const Signup = () => {
   }
 
   const handlesubmit = () => {
-    const config = { Headers: { "Content-Type": "multipart/form-data" } }
+    const config = { Headers: {"Content-Type":"multipart/form-data" }};
     const newForm = new FormData()
 
 
     newForm.append("file", avatar)
     newForm.append("name", name)
-    newForm.append("password", password)
     newForm.append("email", email)
-    axios.post(`${server}/user/create-user`, newForm, config).then((res) => {
-      console.log(res)
+    newForm.append("password", password)
 
-    }).catch((err) => {
-      console.log(err)
-    })
+    axios
+      .post(`${server}/user/create-user`, newForm, config)
+      .then((res) => {
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
   };
 
 
