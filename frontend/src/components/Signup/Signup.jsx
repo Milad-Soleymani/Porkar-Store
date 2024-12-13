@@ -13,7 +13,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('')
   const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [avatar, setAvatar] = useState(null);
 
   const handleFileInputChange = (e) => {
