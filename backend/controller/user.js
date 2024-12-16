@@ -5,6 +5,8 @@ const router = express.Router();
 const { upload } = require('../multer');
 const User = require('../model/user')
 const ErrorHandler = require('../utils/ErrorHandler');
+const jwt = require('jsonwebtoken');
+const sendMail = require('../utils/sendmail');
 require('express-debug')
 require('express-async-errors');
 
@@ -26,7 +28,6 @@ router.post('/create-user', upload.single('file'), async (req, res, next) => {
         })
         return next(new ErrorHandler('User already exists', 400))
     }
-
     const filename = req.file.filename;
     const fileUrl = path.join(filename);
 
@@ -38,10 +39,33 @@ router.post('/create-user', upload.single('file'), async (req, res, next) => {
     };
 
     const newUser = await User.create(user)
-    res.status(201).json({
-        success: true,
-        newUser,
-    })
+
+    const activationToken = createActivationToken(user);
+
+    const activationUrl = `http://localhost:3000/activation/${activationToken}`
+
+
+     await sendMail({
+         email: user.email,
+         subject: 'Activate your account',
+         message: `Hello ${user.name}, please click on this link to activate your account: ${activationUrl}`
+     })
+     res.status(201).json({
+         success: true,
+         message: `Please check your email:- ${user.email} to activate your account!`
+     })
 })
+
+// ! create activation token
+const createActivationToken = (user) => {
+    return jwt.sign(user, process.env.ACTIVATION_SECRET, {
+        expiresIn: "5m"
+    })
+}
+
+// ! activate user
+
+
+
 
 module.exports = router;
