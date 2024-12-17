@@ -4,9 +4,11 @@ const fs = require('fs');
 const router = express.Router();
 const { upload } = require('../multer');
 const User = require('../model/user')
+const catchAsyncErrors = require('../middlewaer/catchAsyncErrors')
 const ErrorHandler = require('../utils/ErrorHandler');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/sendmail');
+const sendToken = require('../utils/jwtToken');
 require('express-debug')
 require('express-async-errors');
 
@@ -22,8 +24,6 @@ router.post('/create-user', upload.single('file'), async (req, res, next) => {
             if (err) {
                 console.log(err)
                 res.status(500).json({ message: "Error deleting file" })
-            } else {
-                res.json({ message: 'file deleted successfully' })
             }
         })
         return next(new ErrorHandler('User already exists', 400))
@@ -38,7 +38,6 @@ router.post('/create-user', upload.single('file'), async (req, res, next) => {
         avatar: fileUrl,
     };
 
-    const newUser = await User.create(user)
 
     const activationToken = createActivationToken(user);
 
@@ -64,7 +63,28 @@ const createActivationToken = (user) => {
 }
 
 // ! activate user
+router.post('/activation', catchAsyncErrors(async(req,res,next) => {
+    try{
+        const {activation_token} = req.body;
 
+        const newUser = jwt.verify(activation_token, process.env.ACTIVATION_SECRET);
+
+        if(!newUser){
+            return next(new ErrorHandler('Invalid token', 400))
+        }
+        const {name,email,password,avatar} = newUser;
+        User.create({
+            name,
+            email,
+            avatar,
+            password
+        })
+
+        sendToken(newUser, 201, res);
+    }catch (error){
+        return next(new ErrorHandler(error.message, 500))
+    }
+}))
 
 
 
