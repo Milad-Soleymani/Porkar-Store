@@ -6,5 +6,6 @@ import ActivationPage from '../src/pages/ActivationPage'
 
 export {
     LoginPage,
-    SignupPage
+    SignupPage,
+    ActivationPage
 };
