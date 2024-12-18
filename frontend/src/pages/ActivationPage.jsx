@@ -11,15 +11,17 @@ const ActivationPage = () => {
         if (activation_token) {
             const activationEmail = async () => {
                 try {
-                    const res = await axios.post(`${server}/activation/`,
+                    const res = await axios.post(`${server}/user/activation/`,
                         { activation_token });
                     console.log(res.data.message)
                 } catch (err) {
                     console.log(err)
+                    setError(true)
                 }
-            }
+            };
+            activationEmail()
         }
-    }, [activation_token]);
+    }, []);
     return (
         <div style={{
             width: '100%',
@@ -39,4 +41,4 @@ const ActivationPage = () => {
     )
 }
 
-export default ActivationPage
+export default ActivationPage;
