@@ -44,15 +44,15 @@ router.post('/create-user', upload.single('file'), async (req, res, next) => {
     const activationUrl = `http://localhost:3000/activation/${activationToken}`
 
 
-     await sendMail({
-         email: user.email,
-         subject: 'Activate your account',
-         message: `Hello ${user.name}, please click on this link to activate your account: ${activationUrl}`
-     })
-     res.status(201).json({
-         success: true,
-         message: `Please check your email:- ${user.email} to activate your account!`
-     })
+    await sendMail({
+        email: user.email,
+        subject: 'Activate your account',
+        message: `Hello ${user.name}, please click on this link to activate your account: ${activationUrl}`
+    })
+    res.status(201).json({
+        success: true,
+        message: `Please check your email:- ${user.email} to activate your account!`
+    })
 })
 
 // ! create activation token
@@ -63,20 +63,20 @@ const createActivationToken = (user) => {
 }
 
 // ! activate user
-router.post('/activation', catchAsyncErrors(async(req,res,next) => {
-    try{
-        const {activation_token} = req.body;
+router.post('/activation', catchAsyncErrors(async (req, res, next) => {
+    try {
+        const { activation_token } = req.body;
 
         const newUser = jwt.verify(activation_token, process.env.ACTIVATION_SECRET);
 
-        if(!newUser){
+        if (!newUser) {
             return next(new ErrorHandler('Invalid token', 400))
         }
-        const {name,email,password,avatar} = newUser;
+        const { name, email, password, avatar } = newUser;
 
         let user = await User.findOne({ email });
 
-        if(user){
+        if (user) {
             return next(new ErrorHandler('User alerdy exists', 400))
         }
 
@@ -85,14 +85,42 @@ router.post('/activation', catchAsyncErrors(async(req,res,next) => {
             email,
             avatar,
             password,
-          });
+        });
 
         sendToken(user, 201, res);
-    }catch (error){
+    } catch (error) {
         return next(new ErrorHandler(error.message, 500))
     }
 }))
 
+
+// ! login user
+router.post('/login-user', catchAsyncErrors(async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return next(new ErrorHandler('Please provide the all fields!', 400))
+        }
+
+        const user = await User.findOne({ email }).select("+password")
+
+
+        if (!user) {
+            return next(new ErrorHandler("User doesn't exists!", 401))
+        }
+    } catch (err) {
+        return next(new ErrorHandler(err.message, 500))
+    }
+
+    const isPasswordValid = await User.comparePassword(password)
+
+    if (!isPasswordValid) {
+        return next(new ErrorHandler('Incorrect password', 400))
+    }
+
+    sendToken(user, 201, res);
+}))
 
 
 module.exports = router;
