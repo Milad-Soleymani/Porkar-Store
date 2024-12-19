@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { RxAvatar } from 'react-icons/rx'
 import axios from 'axios'
 import { server } from '../../server'
+import { toast } from 'react-toastify'
 
 // ! Original component
 const Signup = () => {
@@ -34,6 +35,12 @@ const Signup = () => {
 
     axios
       .post(`${server}/user/create-user`, newForm, config)
+      .then((res) => {
+        toast.success('Successfully registered! Check your email inbox!')
+      }).catch((err) => {
+        console.log(err.message)
+        toast.error(err.message)
+      })
   };
 
 
