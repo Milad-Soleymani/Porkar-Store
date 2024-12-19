@@ -37,7 +37,7 @@ const Signup = () => {
     axios
       .post(`${server}/user/create-user`, newForm, config)
       .then((res) => {
-        toast.success('Successfully registered! Check your email inbox!')
+        toast.success(res.data.message)
         navigate('/')
       }).catch((err) => {
         console.log(err.message)
